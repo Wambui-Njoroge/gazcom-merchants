@@ -807,18 +807,18 @@ app.use((req, res, next) => {
 // Start server
 app.listen(PORT, () => {
     console.log('\n=================================');
-    console.log('🚀 GAZCOM GENERAL MERCHANTS API');
+    console.log(' GAZCOM GENERAL MERCHANTS API');
     console.log('=================================');
-    console.log(`📡 Server: http://localhost:${PORT}`);
-    console.log(`🎨 Frontend: http://localhost:${PORT}`);
-    console.log(`🔧 Health: http://localhost:${PORT}/api/health`);
-    console.log(`📦 Products: http://localhost:${PORT}/api/products/search`);
-    console.log(`🖼️  Cloudinary Upload: http://localhost:${PORT}/api/upload/image`);
+    console.log(` Server: http://localhost:${PORT}`);
+    console.log(` Frontend: http://localhost:${PORT}`);
+    console.log(` Health: http://localhost:${PORT}/api/health`);
+    console.log(` Products: http://localhost:${PORT}/api/products/search`);
+    console.log(` Cloudinary Upload: http://localhost:${PORT}/api/upload/image`);
     console.log('=================================');
-    console.log('✅ Role-based access control enabled');
+    console.log(' Role-based access control enabled');
     console.log('   - New users: role = "user"');
     console.log('   - Admin users: role = "admin"');
     console.log('=================================');
-    console.log('📧 Inquiry System Active - Customers contact via email/phone');
+    console.log(' Inquiry System Active - Customers contact via email/phone');
     console.log('=================================\n');
 });
