@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>GAZCOM Database Test</h1>
+    <button onclick="testCategories()">Test Categories API</button>
+    <button onclick="testProducts()">Test Products API</button>
+    <button onclick="testFeatured()">Test Featured API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testCategories() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p>Loading categories...</p>';
+            
+            try {
+                const response = await fetch('/api/categories');
+                const data = await response.json();
+                result.innerHTML = `
+                    <h2 class="success">✅ Categories API Working!</h2>
+                    <p>Found ${data.length} categories:</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `<h2 class="error">❌ Error: ${error.message}</h2>`;
+            }
+        }
+        
+        async function testProducts() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p>Loading products...</p>';
+            
+            try {
+                const response = await fetch('/api/products/search');
+                const data = await response.json();
+                result.innerHTML = `
+                    <h2 class="success">✅ Products API Working!</h2>
+                    <p>Found ${data.length} products:</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `<h2 class="error">❌ Error: ${error.message}</h2>`;
+            }
+        }
+        
+        async function testFeatured() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p>Loading featured products...</p>';
+            
+            try {
+                const response = await fetch('/api/products/featured');
+                const data = await response.json();
+                result.innerHTML = `
+                    <h2 class="success">✅ Featured Products API Working!</h2>
+                    <p>Found ${data.length} featured products:</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `<h2 class="error">❌ Error: ${error.message}</h2>`;
+            }
+        }
+        
+        // Auto-run tests
+        testCategories();
+    </script>
+</body>
+</html>

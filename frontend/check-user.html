@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check User - Debug</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 5px; }
+        .admin { color: red; }
+        .user { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Current User Debug Info</h1>
+    <div id="info"></div>
+    <button onclick="clearStorage()">Clear Storage & Logout</button>
+    
+    <script>
+        function displayInfo() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            const div = document.getElementById('info');
+            div.innerHTML = `
+                <h2>LocalStorage Contents:</h2>
+                <p><strong>Token exists:</strong> ${token ? 'YES' : 'NO'}</p>
+                <p><strong>Token value:</strong> ${token ? token.substring(0, 50) + '...' : 'null'}</p>
+                <p><strong>User object:</strong></p>
+                <pre>${user || 'null'}</pre>
+                ${user ? `<p><strong>User Role:</strong> <span class="${JSON.parse(user).role === 'admin' ? 'admin' : 'user'}">${JSON.parse(user).role}</span></p>` : ''}
+                
+                <h2>Actions:</h2>
+                <button onclick="window.location.href='dashboard.html'">Go to Dashboard</button>
+                <button onclick="window.location.href='admin.html'">Go to Admin</button>
+                <button onclick="window.location.href='login.html'">Go to Login</button>
+                <button onclick="window.location.href='register.html'">Go to Register</button>
+            `;
+        }
+        
+        function clearStorage() {
+            localStorage.clear();
+            alert('Storage cleared! Redirecting to login...');
+            window.location.href = 'login.html';
+        }
+        
+        displayInfo();
+    </script>
+</body>
+</html>

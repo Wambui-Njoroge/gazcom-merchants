@@ -1,0 +1,55 @@
+/* Admin Panel with Orange Theme */
+
+.stat-card i {
+    color: var(--orange);
+}
+
+.stat-card h3 {
+    color: var(--orange);
+}
+
+.section-header h1 {
+    color: var(--jungle-green);
+    border-left: 4px solid var(--orange);
+    padding-left: 1rem;
+}
+
+.data-table thead {
+    background-color: var(--jungle-green);
+}
+
+.data-table tbody tr:hover {
+    background-color: rgba(255, 107, 53, 0.05);
+}
+
+.btn-primary {
+    background-color: var(--jungle-green);
+}
+
+.btn-primary:hover {
+    background-color: var(--orange);
+}
+
+.btn-danger {
+    background-color: var(--orange);
+}
+
+.btn-danger:hover {
+    background-color: #e55a2a;
+}
+
+.modal-header {
+    background-color: var(--jungle-green);
+}
+
+.close:hover {
+    color: var(--orange);
+}
+
+.status-badge.status-pending {
+    background: var(--orange);
+}
+
+.status-badge.status-completed {
+    background: var(--jungle-green);
+}

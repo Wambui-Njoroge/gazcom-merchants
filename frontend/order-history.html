@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - GAZCOM</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .orders-container {
+            margin-top: 100px;
+            padding: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .orders-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .orders-header h1 {
+            color: var(--jungle-green);
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .orders-header p {
+            color: var(--gray-600);
+            margin-top: 0.5rem;
+        }
+        
+        .orders-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .order-info {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .order-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+        
+        .order-info-item i {
+            color: var(--orange);
+            width: 20px;
+        }
+        
+        .order-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3e0;
+            color: #f39c12;
+        }
+        
+        .status-processing {
+            background: #e3f2fd;
+            color: #3498db;
+        }
+        
+        .status-shipped {
+            background: #e8f5e9;
+            color: #27ae60;
+        }
+        
+        .status-delivered {
+            background: #e8f5e9;
+            color: #27ae60;
+        }
+        
+        .status-cancelled {
+            background: #ffebee;
+            color: #e74c3c;
+        }
+        
+        .order-total {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--orange);
+        }
+        
+        .order-items-preview {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .preview-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-600);
+            font-size: 0.85rem;
+        }
+        
+        .view-details-btn {
+            background: linear-gradient(135deg, var(--jungle-green), var(--blue));
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .view-details-btn:hover {
+            background: linear-gradient(135deg, var(--orange), #ff8c42);
+            transform: translateY(-2px);
+        }
+        
+        .empty-orders {
+            text-align: center;
+            padding: 4rem;
+            background: white;
+            border-radius: 20px;
+        }
+        
+        .empty-orders i {
+            font-size: 5rem;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+        
+        .empty-orders h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .shop-now-btn {
+            background: linear-gradient(135deg, var(--jungle-green), var(--blue));
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .orders-container {
+                margin-top: 80px;
+                padding: 1rem;
+            }
+            
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .order-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .order-total {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="GAZCOM" class="logo-img" onerror="this.src='https://via.placeholder.com/50?text=G'">
+                <span class="logo-text">GAZCOM GENERAL MERCHANTS</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="shop.html">SHOP</a></li>
+                <li><a href="services.html">SERVICES</a></li>
+                <li><a href="dashboard.html">DASHBOARD</a></li>
+                <li><a href="login.html">LOGIN</a></li>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="orders-container">
+        <div class="orders-header">
+            <h1>My Orders</h1>
+            <p>Track and manage your orders</p>
+        </div>
+        
+        <div id="orders-content">
+            <div class="loading">Loading your orders...</div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GAZCOM GENERAL MERCHANTS</h3>
+                <p>Your trusted partner in petroleum equipment</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="order-history.html">My Orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p><i class="fas fa-phone"></i> +254 724 515 819</p>
+                <p><i class="fas fa-envelope"></i> gazcom.gm@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GAZCOM GENERAL MERCHANTS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+        
+        // Load orders
+        async function loadOrders() {
+            const token = localStorage.getItem('token');
+            const container = document.getElementById('orders-content');
+            
+            try {
+                const response = await fetch('/api/orders', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const orders = await response.json();
+                
+                if (!orders || orders.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-orders">
+                            <i class="fas fa-shopping-bag"></i>
+                            <h3>No Orders Yet</h3>
+                            <p>You haven't placed any orders yet.</p>
+                            <button class="shop-now-btn" onclick="window.location.href='shop.html'">
+                                Start Shopping
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <div class="orders-grid">
+                        ${orders.map(order => `
+                            <div class="order-card" onclick="viewOrderDetails(${order.id})">
+                                <div class="order-header">
+                                    <div class="order-info">
+                                        <div class="order-info-item">
+                                            <i class="fas fa-hashtag"></i>
+                                            <span>Order #${order.order_number || order.id}</span>
+                                        </div>
+                                        <div class="order-info-item">
+                                            <i class="far fa-calendar-alt"></i>
+                                            <span>${new Date(order.created_at).toLocaleDateString()}</span>
+                                        </div>
+                                        <div class="order-info-item">
+                                            <i class="fas fa-box"></i>
+                                            <span>${order.items_count || 0} items</span>
+                                        </div>
+                                    </div>
+                                    <div class="order-total">KES ${Number(order.total_amount).toLocaleString()}</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                                    <div class="order-status status-${order.status}">
+                                        <i class="fas ${getStatusIcon(order.status)}"></i>
+                                        ${order.status.toUpperCase()}
+                                    </div>
+                                    <button class="view-details-btn" onclick="event.stopPropagation(); viewOrderDetails(${order.id})">
+                                        View Details <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                container.innerHTML = `
+                    <div class="empty-orders">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error Loading Orders</h3>
+                        <p>Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function getStatusIcon(status) {
+            switch(status) {
+                case 'pending': return 'fa-clock';
+                case 'processing': return 'fa-spinner fa-pulse';
+                case 'shipped': return 'fa-truck';
+                case 'delivered': return 'fa-check-circle';
+                case 'cancelled': return 'fa-times-circle';
+                default: return 'fa-box';
+            }
+        }
+        
+        function viewOrderDetails(orderId) {
+            window.location.href = `order-details.html?id=${orderId}`;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (checkAuth()) {
+                loadOrders();
+                updateCartCount();
+            }
+        });
+    </script>
+</body>
+</html>

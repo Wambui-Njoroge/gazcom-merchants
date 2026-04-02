@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAZCOM Colors</title>
+    <style>
+        :root {
+            --jungle-green: #2C5F2D;
+            --orange: #FF6B35;
+            --blue: #2C5F8A;
+            --white: #FFFFFF;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        
+        .color-palette {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .color-box {
+            width: 250px;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .jungle-green { background: var(--jungle-green); }
+        .orange { background: var(--orange); }
+        .blue { background: var(--blue); }
+        .white { background: var(--white); color: #333; border: 1px solid #ddd; }
+        
+        .gradient-demo {
+            width: 100%;
+            height: 100px;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .gradient-1 { background: linear-gradient(135deg, var(--jungle-green), var(--orange)); }
+        .gradient-2 { background: linear-gradient(135deg, var(--orange), var(--blue)); }
+        .gradient-3 { background: linear-gradient(135deg, var(--jungle-green), var(--blue)); }
+        
+        .button-demo {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--jungle-green);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--orange);
+        }
+        
+        .btn-secondary {
+            background: var(--blue);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--orange);
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--orange);
+            color: var(--orange);
+        }
+        
+        .btn-outline:hover {
+            background: var(--orange);
+            color: white;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin: 0.25rem;
+        }
+        
+        .badge-green { background: var(--jungle-green); color: white; }
+        .badge-orange { background: var(--orange); color: white; }
+        .badge-blue { background: var(--blue); color: white; }
+        
+        h2 {
+            color: var(--jungle-green);
+            margin-top: 2rem;
+        }
+        
+        hr {
+            margin: 2rem 0;
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, var(--jungle-green), var(--orange), var(--blue));
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 GAZCOM Color Palette</h1>
+    
+    <div class="color-palette">
+        <div class="color-box jungle-green">Jungle Green<br>#2C5F2D</div>
+        <div class="color-box orange">Orange<br>#FF6B35</div>
+        <div class="color-box blue">Dark Blue<br>#2C5F8A</div>
+        <div class="color-box white">White<br>#FFFFFF</div>
+    </div>
+    
+    <hr>
+    
+    <h2>🔥 Gradients</h2>
+    <div class="gradient-demo gradient-1">Green to Orange</div>
+    <div class="gradient-demo gradient-2">Orange to Blue</div>
+    <div class="gradient-demo gradient-3">Green to Blue</div>
+    
+    <h2>🔘 Buttons</h2>
+    <div class="button-demo">
+        <button class="btn-primary">Primary (Green)</button>
+        <button class="btn-secondary">Secondary (Blue)</button>
+        <button class="btn-outline">Outline (Orange)</button>
+    </div>
+    
+    <h2>🏷️ Badges</h2>
+    <div>
+        <span class="badge badge-green">Green Badge</span>
+        <span class="badge badge-orange">Orange Badge</span>
+        <span class="badge badge-blue">Blue Badge</span>
+    </div>
+    
+    <h2>📝 Text Examples</h2>
+    <p style="color: var(--jungle-green);"><strong>Jungle Green</strong> - Primary brand color</p>
+    <p style="color: var(--orange);"><strong>Orange</strong> - Energy, fire, petroleum theme</p>
+    <p style="color: var(--blue);"><strong>Dark Blue</strong> - Trust, professionalism, reliability</p>
+    
+    <hr>
+    
+    <h2>💡 Usage Guide</h2>
+    <ul>
+        <li><strong>Jungle Green (#2C5F2D)</strong> - Main navigation, headers, primary buttons</li>
+        <li><strong>Orange (#FF6B35)</strong> - Call-to-action, hover states, sale badges, icons</li>
+        <li><strong>Dark Blue (#2C5F8A)</strong> - Secondary buttons, info badges, links, certifications</li>
+    </ul>
+</body>
+</html>

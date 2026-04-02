@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - GAZCOM GENERAL MERCHANTS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .services-container {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .services-header h1 {
+            color: var(--jungle-green);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card i {
+            font-size: 3rem;
+            color: var(--red);
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            color: var(--jungle-green);
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, var(--jungle-green) 0%, var(--red) 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .contact-section h2 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-info div {
+            text-align: center;
+        }
+
+        .contact-info i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="GAZCOM" class="logo-img"
+                    onerror="this.src='https://via.placeholder.com/50'">
+                <span class="logo-text">GAZCOM GENERAL MERCHANTS</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="shop.html">SHOP</a></li>
+                <li><a href="services.html" class="active">SERVICES</a></li>
+                <li><a href="register.html">REGISTER</a></li>
+                <li><a href="login.html">LOGIN</a></li>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="services-container">
+        <div class="services-header">
+            <h1>Our Services</h1>
+            <p>Comprehensive solutions for the petroleum industry</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-truck"></i>
+                <h3>Equipment Supply</h3>
+                <p>High-quality petroleum equipment including pipes, valves, pumps, and fittings from leading
+                    manufacturers.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-tools"></i>
+                <h3>Installation Services</h3>
+                <p>Professional installation of petroleum equipment with certified technicians and safety compliance.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Technical Support</h3>
+                <p>24/7 technical support and maintenance services to ensure your operations run smoothly.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-hard-hat"></i>
+                <h3>Safety Training</h3>
+                <p>Comprehensive safety training programs for petroleum handling and equipment operation.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-wrench"></i>
+                <h3>Repair & Maintenance</h3>
+                <p>Expert repair and preventive maintenance services for all petroleum equipment.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-tachometer-alt"></i>
+                <h3>Equipment Calibration</h3>
+                <p>Precision calibration of meters, gauges, and measurement equipment to industry standards.</p>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h2>Need Assistance?</h2>
+            <p>Our team of experts is ready to help you with all your petroleum equipment needs</p>
+            <div class="contact-info">
+                <div>
+                    <i class="fas fa-phone"></i>
+                    <p>+254 724515819</p>
+                </div>
+                <div>
+                    <i class="fas fa-envelope"></i>
+                    <p>info@gazcom.com</p>
+                </div>
+                <div>
+                    <i class="fas fa-clock"></i>
+                    <p>24 hrs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GAZCOM GENERAL MERCHANTS</h3>
+                <p>Your trusted partner in petroleum equipment</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p><i class="fas fa-phone"></i> +254 724515819</p>
+                <p><i class="fas fa-envelope"></i> </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 GAZCOM GENERAL MERCHANTS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Buttons</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { padding: 50px; font-family: Arial; }
+        .test-section { margin: 30px 0; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
+        button { margin: 10px; padding: 10px 20px; cursor: pointer; }
+        .result { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Button Test Page</h1>
+    
+    <div class="test-section">
+        <h2>Test Buttons</h2>
+        <button onclick="testClick('Button 1')">Button 1</button>
+        <button onclick="testClick('Button 2')">Button 2</button>
+        <button class="auth-btn" onclick="testClick('Auth Button')">Auth Button</button>
+        <button class="cta-button" onclick="testClick('CTA Button')">CTA Button</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Form</h2>
+        <form id="testForm">
+            <input type="text" placeholder="Test input">
+            <button type="submit">Submit Form</button>
+        </form>
+    </div>
+    
+    <div class="result" id="result">
+        Click a button to test...
+    </div>
+    
+    <script>
+        function testClick(buttonName) {
+            const result = document.getElementById('result');
+            result.innerHTML = `✅ Button "${buttonName}" clicked at ${new Date().toLocaleTimeString()}`;
+            result.style.background = '#d4edda';
+            setTimeout(() => {
+                result.style.background = '#f0f0f0';
+            }, 2000);
+        }
+        
+        document.getElementById('testForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const result = document.getElementById('result');
+            result.innerHTML = `✅ Form submitted successfully! Button did not disappear.`;
+            result.style.background = '#d4edda';
+        });
+    </script>
+</body>
+</html>
