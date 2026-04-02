@@ -33,13 +33,14 @@ try {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Database connection
+// Database connection - FIXED FOR NEON (requires SSL in production)
 const pool = new Pool({
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 5433,
     database: process.env.DB_NAME || 'gazcom_db',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || '1234',
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
 // Middleware
@@ -806,18 +807,18 @@ app.use((req, res, next) => {
 // Start server
 app.listen(PORT, () => {
     console.log('\n=================================');
-    console.log('🚀 GAZCOM GENERAL MERCHANTS API');
+    console.log(' GAZCOM GENERAL MERCHANTS API');
     console.log('=================================');
-    console.log(`📡 Server: http://localhost:${PORT}`);
-    console.log(`🎨 Frontend: http://localhost:${PORT}`);
-    console.log(`🔧 Health: http://localhost:${PORT}/api/health`);
-    console.log(`📦 Products: http://localhost:${PORT}/api/products/search`);
-    console.log(`🖼️  Cloudinary Upload: http://localhost:${PORT}/api/upload/image`);
+    console.log(` Server: http://localhost:${PORT}`);
+    console.log(` Frontend: http://localhost:${PORT}`);
+    console.log(` Health: http://localhost:${PORT}/api/health`);
+    console.log(` Products: http://localhost:${PORT}/api/products/search`);
+    console.log(` Cloudinary Upload: http://localhost:${PORT}/api/upload/image`);
     console.log('=================================');
-    console.log('✅ Role-based access control enabled');
+    console.log(' Role-based access control enabled');
     console.log('   - New users: role = "user"');
     console.log('   - Admin users: role = "admin"');
     console.log('=================================');
-    console.log('📧 Inquiry System Active - Customers contact via email/phone');
+    console.log(' Inquiry System Active - Customers contact via email/phone');
     console.log('=================================\n');
 });
