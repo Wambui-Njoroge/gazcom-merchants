@@ -85,17 +85,17 @@ async function loadCategoryCarousel() {
     }
 }
 
-// Map category ID to a specific background image.
-// Replace these placeholder URLs with your own images (Cloudinary or local).
+// ✅ UPDATED: Use Cloudinary URLs for category background images
+// After uploading your images, replace the version numbers (v123456) with your actual ones.
 function getCategoryBackgroundImage(category) {
     const imageMap = {
-        1: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200',   // petroleum equipment
-        2: 'https://images.unsplash.com/photo-1581093806997-1e6a9e5e5d5c?w=1200',   // electricals
-        3: 'https://images.unsplash.com/photo-1566576912321-d58b6c7c1b0c?w=1200',   // petrol station
-        4: 'https://images.unsplash.com/photo-1573164574511-92c4630a5c3f?w=1200',   // gas
-        5: 'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=1200'    // PPE
+        1: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/petroleum-equipment.jpg',
+        2: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/electricals.jpg',
+        3: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/petrol-station.jpg',
+        4: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/gas.jpg',
+        5: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/ppe.jpg'
     };
-    return imageMap[category.id] || 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200';
+    return imageMap[category.id] || 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/default.jpg';
 }
 
 function renderCarousel() {
@@ -132,7 +132,6 @@ function renderCarousel() {
         `;
         slidesContainer.appendChild(slide);
 
-        // Dot
         const dot = document.createElement('span');
         dot.className = `dot ${index === currentCategoryIndex ? 'active' : ''}`;
         dot.dataset.index = index;
@@ -194,7 +193,6 @@ function attachCarouselEvents() {
     }
 }
 
-// Helper to prevent XSS
 function escapeHtml(str) {
     if (!str) return '';
     const div = document.createElement('div');
@@ -202,7 +200,7 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
-// ---------- Original Helper Functions ----------
+// ---------- Featured Products ----------
 async function loadFeaturedProducts() {
     const grid = document.getElementById('featured-products');
     if (!grid) return;
@@ -216,7 +214,7 @@ async function loadFeaturedProducts() {
         }
         grid.innerHTML = products.map(product => `
             <div class="product-card" onclick="viewProduct(${product.id})">
-                <img src="${product.image_url || 'https://via.placeholder.com/300x250?text=Petroleum+Product'}" alt="${escapeHtml(product.name)}" class="product-image" onerror="this.src='https://via.placeholder.com/300x250?text=Product'">
+                <img src="${product.image_url || 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/default.jpg'}" alt="${escapeHtml(product.name)}" class="product-image" onerror="this.src='https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/default.jpg'">
                 <div class="product-info">
                     <div class="product-title">${escapeHtml(product.name)}</div>
                     <div class="product-category">${escapeHtml(product.category_name || 'Petroleum Equipment')}</div>
@@ -256,7 +254,7 @@ async function checkAuthStatus() {
 // ---------- Initialization ----------
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthStatus();
-    loadCategoryCarousel();   // replaces old category grid
+    loadCategoryCarousel();
     loadFeaturedProducts();
 });
 

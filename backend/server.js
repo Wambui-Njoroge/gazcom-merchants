@@ -16,6 +16,38 @@ const mpesaService = require('./services/mpesaService');
 // Import Cloudinary service
 const cloudinaryService = require('./services/cloudinaryService');
 
+// ============= CLOUDINARY UPLOAD ROUTES =============
+app.post('/api/upload/image', verifyAdmin, cloudinaryService.upload.single('image'), async (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({ error: 'No file provided' });
+        const result = await cloudinaryService.uploadImage(req.file.buffer, {
+            folder: 'gazcom_products'
+        });
+        res.json({ success: true, url: result.secure_url, public_id: result.public_id });
+    } catch (error) {
+        console.error('Upload error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/upload/from-url', verifyAdmin, async (req, res) => {
+    try {
+        const { imageUrl, public_id } = req.body;
+        if (!imageUrl) return res.status(400).json({ error: 'Image URL required' });
+        const result = await cloudinaryService.uploadImageFromUrl(imageUrl, { folder: 'gazcom_products', public_id });
+        res.json({ success: true, url: result.secure_url, public_id: result.public_id });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get optimized image URL (optional)
+app.get('/api/images/optimized/:publicId', (req, res) => {
+    const { publicId } = req.params;
+    const url = cloudinaryService.getOptimizedImageUrl(publicId);
+    res.json({ url });
+});
+
 // Import email service (optional)
 let emailService;
 try {
