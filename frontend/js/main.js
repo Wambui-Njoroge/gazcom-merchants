@@ -1,59 +1,17 @@
-// Inquire functionality - Replaces cart system
-// Inquire functionality - Professional email template
+// Inquire functionality
 function inquireProduct(product) {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const userEmail = user.email || '';
     const userName = user.full_name || user.username || 'Customer';
     const userPhone = user.phone || 'Not provided';
 
-    // Create professional email subject
     const subject = `Product Inquiry: ${product.name} (ID: ${product.id})`;
+    const body = `Dear GAZCOM Team,\n\nI am interested in the following product from your catalog:\n\nProduct Details:\nProduct Name: ${product.name}\nCategory: ${product.category_name || 'Petroleum Equipment'}\nProduct ID: ${product.id}\n\nMy Contact Information:\nName: ${userName}\nEmail: ${userEmail}\nPhone: ${userPhone}\n\nRequest:\nPlease send me more information about this product.\n\nAdditional Questions:\n${userName === 'Customer' ? 'Please contact me with more details about this product.' : 'I look forward to your response with the requested information.'}\n\nThank you for your assistance.\n\nBest regards,\n${userName}\n${userPhone !== 'Not provided' ? `Tel: ${userPhone}` : ''}\n${userEmail ? `Email: ${userEmail}` : ''}\n\n--\nThis inquiry was sent from GAZCOM website.\nwww.gazcom.com | +254 724 515 819`;
 
-    // Create professional email body with actual line breaks (not encoded)
-    const body = `Dear GAZCOM Team,
-
-I am interested in the following product from your catalog:
-
-Product Details:
-Product Name: ${product.name}
-Category: ${product.category_name || 'Petroleum Equipment'}
-Product ID: ${product.id}
-
-My Contact Information:
-------------------
-Name: ${userName}
-Email: ${userEmail}
-Phone: ${userPhone}
-
-Request:
-
-Please send me more information about this product.
-
-Additional Questions:
-
-${userName === 'Customer' ? 'Please contact me with more details about this product.' : 'I look forward to your response with the requested information.'}
-
-Thank you for your assistance.
-
-Best regards,
-${userName}
-${userPhone !== 'Not provided' ? `Tel: ${userPhone}` : ''}
-${userEmail ? `Email: ${userEmail}` : ''}
-
---
-This inquiry was sent from GAZCOM website.
-www.gazcom.com | +254 724 515 819`;
-
-    // Encode for URL (this converts line breaks to %0D%0A automatically)
-    const encodedSubject = encodeURIComponent(subject);
-    const encodedBody = encodeURIComponent(body);
-
-    // Open email client
-    window.location.href = `mailto:gazcom.gm@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
-
-    // Show confirmation message
+    window.location.href = `mailto:gazcom.gm@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     showNotification('Opening your email client...', 'info');
 }
+
 function makePhoneCall() {
     window.location.href = 'tel:+254724515819';
 }
@@ -87,42 +45,164 @@ function viewProduct(productId) {
     window.location.href = `product.html?id=${productId}`;
 }
 
-// Add CSS animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
+// Add core CSS animations if not already present
+if (!document.querySelector('#gazcom-dynamic-styles')) {
+    const style = document.createElement('style');
+    style.id = 'gazcom-dynamic-styles';
+    style.textContent = `
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+}
 
-// Load categories
-async function loadCategories() {
-    const grid = document.getElementById('categories-grid');
-    if (!grid) return;
+// ---------- Category Carousel ----------
+let currentCategoryIndex = 0;
+let categories = [];
+let carouselInterval;
+
+async function loadCategoryCarousel() {
+    const slidesContainer = document.getElementById('categoryCarousel');
+    const dotsContainer = document.getElementById('carouselDots');
+    if (!slidesContainer) return;
 
     try {
         const response = await fetch('/api/categories');
-        const categories = await response.json();
-        grid.innerHTML = categories.map(cat => `
-            <div class="category-card" onclick="window.location.href='shop.html?category=${cat.id}'">
-                <i class="${cat.icon || 'fas fa-box'}"></i>
-                <h3>${cat.name}</h3>
-                <p>${cat.description || 'View products'}</p>
-            </div>
-        `).join('');
+        categories = await response.json();
+        if (!categories.length) return;
+
+        renderCarousel();
+        startAutoRotate();
+        attachCarouselEvents();
     } catch (error) {
-        console.error('Error loading categories:', error);
-        grid.innerHTML = '<div class="loading">Unable to load categories</div>';
+        console.error('Error loading category carousel:', error);
     }
 }
 
-// Load featured products
+// Map category ID to a specific background image.
+// Replace these placeholder URLs with your own images (Cloudinary or local).
+function getCategoryBackgroundImage(category) {
+    const imageMap = {
+        1: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200',   // petroleum equipment
+        2: 'https://images.unsplash.com/photo-1581093806997-1e6a9e5e5d5c?w=1200',   // electricals
+        3: 'https://images.unsplash.com/photo-1566576912321-d58b6c7c1b0c?w=1200',   // petrol station
+        4: 'https://images.unsplash.com/photo-1573164574511-92c4630a5c3f?w=1200',   // gas
+        5: 'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=1200'    // PPE
+    };
+    return imageMap[category.id] || 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200';
+}
+
+function renderCarousel() {
+    const slidesContainer = document.getElementById('categoryCarousel');
+    const dotsContainer = document.getElementById('carouselDots');
+    if (!slidesContainer) return;
+
+    slidesContainer.innerHTML = '';
+    dotsContainer.innerHTML = '';
+
+    categories.forEach((cat, index) => {
+        const bgImage = getCategoryBackgroundImage(cat);
+        const slide = document.createElement('div');
+        slide.className = `carousel-slide ${index === currentCategoryIndex ? 'active' : ''}`;
+        slide.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${bgImage}')`;
+        slide.style.backgroundSize = 'cover';
+        slide.style.backgroundPosition = 'center';
+        slide.dataset.index = index;
+        slide.onclick = (e) => {
+            if (e.target.tagName !== 'BUTTON') {
+                window.location.href = `shop.html?category=${cat.id}`;
+            }
+        };
+
+        slide.innerHTML = `
+            <div class="carousel-content">
+                <i class="${cat.icon || 'fas fa-box'}"></i>
+                <h3>${escapeHtml(cat.name)}</h3>
+                <p>${escapeHtml(cat.description || 'Shop our premium range of petroleum equipment and accessories.')}</p>
+                <button class="cta-button" onclick="event.stopPropagation(); window.location.href='shop.html?category=${cat.id}'">
+                    Explore Now <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        `;
+        slidesContainer.appendChild(slide);
+
+        // Dot
+        const dot = document.createElement('span');
+        dot.className = `dot ${index === currentCategoryIndex ? 'active' : ''}`;
+        dot.dataset.index = index;
+        dot.onclick = (e) => {
+            e.stopPropagation();
+            goToSlide(index);
+        };
+        dotsContainer.appendChild(dot);
+    });
+}
+
+function goToSlide(index) {
+    if (index < 0) index = categories.length - 1;
+    if (index >= categories.length) index = 0;
+    currentCategoryIndex = index;
+
+    document.querySelectorAll('.carousel-slide').forEach((slide, i) => {
+        slide.classList.toggle('active', i === currentCategoryIndex);
+    });
+    document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentCategoryIndex);
+    });
+}
+
+function nextSlide() {
+    goToSlide(currentCategoryIndex + 1);
+    resetAutoRotate();
+}
+
+function prevSlide() {
+    goToSlide(currentCategoryIndex - 1);
+    resetAutoRotate();
+}
+
+function startAutoRotate() {
+    if (carouselInterval) clearInterval(carouselInterval);
+    carouselInterval = setInterval(() => {
+        nextSlide();
+    }, 6000);
+}
+
+function resetAutoRotate() {
+    if (carouselInterval) clearInterval(carouselInterval);
+    startAutoRotate();
+}
+
+function attachCarouselEvents() {
+    const prevBtn = document.getElementById('prevCategoryBtn');
+    const nextBtn = document.getElementById('nextCategoryBtn');
+    if (prevBtn) prevBtn.onclick = (e) => { e.stopPropagation(); prevSlide(); };
+    if (nextBtn) nextBtn.onclick = (e) => { e.stopPropagation(); nextSlide(); };
+
+    const container = document.querySelector('.carousel-container');
+    if (container) {
+        container.addEventListener('mouseenter', () => {
+            if (carouselInterval) clearInterval(carouselInterval);
+        });
+        container.addEventListener('mouseleave', startAutoRotate);
+    }
+}
+
+// Helper to prevent XSS
+function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+// ---------- Original Helper Functions ----------
 async function loadFeaturedProducts() {
     const grid = document.getElementById('featured-products');
     if (!grid) return;
@@ -130,19 +210,17 @@ async function loadFeaturedProducts() {
     try {
         const response = await fetch('/api/products/featured');
         const products = await response.json();
-
         if (products.length === 0) {
             grid.innerHTML = '<div class="loading">No featured products available</div>';
             return;
         }
-
         grid.innerHTML = products.map(product => `
             <div class="product-card" onclick="viewProduct(${product.id})">
-                <img src="${product.image_url || 'https://via.placeholder.com/300x250?text=Petroleum+Product'}" alt="${product.name}" class="product-image">
+                <img src="${product.image_url || 'https://via.placeholder.com/300x250?text=Petroleum+Product'}" alt="${escapeHtml(product.name)}" class="product-image" onerror="this.src='https://via.placeholder.com/300x250?text=Product'">
                 <div class="product-info">
-                    <div class="product-title">${product.name}</div>
-                    <div class="product-category">${product.category_name || 'Petroleum Equipment'}</div>
-                    <div class="product-description">${product.description ? product.description.substring(0, 100) : 'Quality petroleum equipment'}...</div>
+                    <div class="product-title">${escapeHtml(product.name)}</div>
+                    <div class="product-category">${escapeHtml(product.category_name || 'Petroleum Equipment')}</div>
+                    <div class="product-description">${escapeHtml(product.description ? product.description.substring(0, 100) : 'Quality petroleum equipment')}...</div>
                     <button class="inquire-btn" onclick="event.stopPropagation(); inquireProduct(${JSON.stringify(product).replace(/"/g, '&quot;')})">
                         <i class="fas fa-envelope"></i> Inquire
                     </button>
@@ -155,17 +233,14 @@ async function loadFeaturedProducts() {
     }
 }
 
-// Check authentication status
 async function checkAuthStatus() {
     const token = localStorage.getItem('token');
     if (!token) return;
-
     try {
         const response = await fetch('/api/auth/verify', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
-
         if (data.valid && data.user) {
             const loginLink = document.querySelector('a[href="login.html"]');
             if (loginLink) {
@@ -178,19 +253,14 @@ async function checkAuthStatus() {
     }
 }
 
-// Initialize on page load
+// ---------- Initialization ----------
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthStatus();
-
-    if (window.location.pathname === '/' ||
-        window.location.pathname === '/index.html' ||
-        window.location.pathname === '') {
-        loadCategories();
-        loadFeaturedProducts();
-    }
+    loadCategoryCarousel();   // replaces old category grid
+    loadFeaturedProducts();
 });
 
-// Export functions
+// Global exports
 window.inquireProduct = inquireProduct;
 window.viewProduct = viewProduct;
 window.makePhoneCall = makePhoneCall;
