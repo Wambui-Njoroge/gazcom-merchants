@@ -335,7 +335,7 @@ button.loading::after,
 .hero {
     min-height: 100vh;
     /* Replace the gradient with a background image (upload your image to Cloudinary) */
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://res.cloudinary.com/de65rjfno/image/upload/v1778753359/hero-bg.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://res.cloudinary.com/de65rjfno/image/upload/v1778763406/PETROLEUM_EQUIPMENT_l9hj9i.jpg') center/cover no-repeat;
     background-size: cover;
     background-position: center;
     /* Remove the gradient animation */
@@ -356,7 +356,8 @@ button.loading::after,
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* optional extra dark overlay */
+    background: rgba(0, 0, 0, 0.3);
+    /* optional extra dark overlay */
     z-index: 0;
 }
 
