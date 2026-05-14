@@ -87,13 +87,13 @@ async function loadCategoryCarousel() {
 
 function getCategoryBackgroundImage(category) {
     const imageMap = {
-        1: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/PETROLEUM_EQUIPMENT_wtlnan.jpg',
-        2: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/ELECTRICALS.jpg',      // Replace with your actual electricals image URL
-        3: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/PETROL_STATION.jpg',  // Replace with actual
-        4: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/GAS.jpg',            // Replace with actual
-        5: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/PPE.jpg'            // Replace with actual
+        1: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778763406/PETROLEUM_EQUIPMENT_l9hj9i.jpg',
+        2: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778763405/electricals_whxjxi.jpg',      // Replace with your actual electricals image URL
+        3: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778763406/gas_pbs0yn.jpg',  // Replace with actual
+        4: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778763405/electricals_whxjxi.jpg',            // Replace with actual
+        5: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778763405/petro_station_e0yejt.jpg'            // Replace with actual
     };
-    return imageMap[category.id] || 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/default.jpg';
+    return imageMap[category.id] || 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778763406/PETROLEUM_EQUIPMENT_l9hj9i.jpg';
 }
 
 function renderCarousel() {
