@@ -85,17 +85,15 @@ async function loadCategoryCarousel() {
     }
 }
 
-// ✅ UPDATED: Use Cloudinary URLs for category background images
-// After uploading your images, replace the version numbers (v123456) with your actual ones.
 function getCategoryBackgroundImage(category) {
     const imageMap = {
         1: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/PETROLEUM_EQUIPMENT_wtlnan.jpg',
-        2: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/electricals.jpg',
-        3: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/petrol-station.jpg',
-        4: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/gas.jpg',
-        5: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/ppe.jpg'
+        2: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/ELECTRICALS.jpg',      // Replace with your actual electricals image URL
+        3: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/PETROL_STATION.jpg',  // Replace with actual
+        4: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/GAS.jpg',            // Replace with actual
+        5: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/PPE.jpg'            // Replace with actual
     };
-    return imageMap[category.id] || 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/default.jpg';
+    return imageMap[category.id] || 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/default.jpg';
 }
 
 function renderCarousel() {
