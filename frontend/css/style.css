@@ -150,7 +150,7 @@ button[disabled],
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Add to Cart Button */
+/* Add to Cart Button (kept for completeness, but not used) */
 .add-to-cart {
     background: linear-gradient(135deg, var(--jungle-green), var(--blue));
     color: var(--white);
@@ -166,7 +166,7 @@ button[disabled],
     transform: translateY(-2px) !important;
 }
 
-/* Hide classes - only use these for actual hiding */
+/* Hide classes */
 .hidden,
 .hide,
 .d-none {
@@ -321,9 +321,6 @@ button.loading::after,
     font-size: 0.7rem;
     font-weight: bold;
     animation: pulse 2s infinite;
-     transition: all 0.3s ease;
-}
-.cart-count {
     transition: all 0.3s ease;
 }
 
@@ -422,106 +419,133 @@ button.loading::after,
     font-weight: 500;
 }
 
-/* ============= CATEGORIES SECTION ============= */
-.categories {
-    padding: 6rem 2rem;
+/* ============= CATEGORY CAROUSEL ============= */
+.category-carousel {
+    padding: 4rem 2rem;
     background: var(--light-bg);
-}
-
-.categories h2 {
-    text-align: center;
-    margin-bottom: 3rem;
-    color: var(--dark-gray);
-    font-size: 2.5rem;
-    font-weight: 700;
     position: relative;
-    letter-spacing: -0.5px;
 }
 
-.categories h2::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--jungle-green), var(--orange));
-    border-radius: 2px;
-}
-
-.category-grid {
+.carousel-container {
+    position: relative;
     max-width: 1400px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.category-card {
-    background: var(--white);
-    padding: 2.5rem 2rem;
-    text-align: center;
-    border-radius: 20px;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    position: relative;
+.carousel-slides {
+    flex: 1;
     overflow: hidden;
+    border-radius: 20px;
+    min-height: 400px;
 }
 
-.category-card::before {
+.carousel-slide {
+    display: none;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+.carousel-slide.active {
+    display: block;
+    animation: fadeInUp 0.5s ease;
+}
+
+.carousel-slide::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--jungle-green), var(--orange));
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 0;
-}
-
-.category-card:hover::before {
-    opacity: 0.05;
-}
-
-.category-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-xl);
-}
-
-.category-card i {
-    font-size: 3.5rem;
-    background: linear-gradient(135deg, var(--jungle-green), var(--orange));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
-    position: relative;
+    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
     z-index: 1;
 }
 
-.category-card:hover i {
-    transform: scale(1.1);
+.carousel-content {
+    position: relative;
+    z-index: 2;
+    padding: 5rem 3rem;
+    color: white;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.category-card h3 {
-    color: var(--dark-gray);
-    margin-bottom: 0.75rem;
-    font-size: 1.35rem;
+.carousel-content i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    background: rgba(255,255,255,0.2);
+    padding: 1rem;
+    border-radius: 50%;
+}
+
+.carousel-content h3 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
     font-weight: 700;
-    position: relative;
-    z-index: 1;
 }
 
-.category-card p {
-    color: var(--gray-600);
-    font-size: 0.9rem;
-    position: relative;
-    z-index: 1;
+.carousel-content p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.carousel-btn {
+    background: rgba(44, 95, 45, 0.8);
+    backdrop-filter: blur(5px);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    margin: 0 0.5rem;
+}
+
+.carousel-btn i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.carousel-btn:hover {
+    background: var(--orange);
+    transform: scale(1.05);
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 2rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background: var(--gray-400);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: var(--orange);
+    width: 30px;
+    border-radius: 10px;
 }
 
 /* ============= FEATURED PRODUCTS ============= */
@@ -602,13 +626,6 @@ button.loading::after,
     color: var(--orange);
     margin-bottom: 0.5rem;
     font-weight: 500;
-}
-
-.product-price {
-    color: var(--orange);
-    font-size: 1.3rem;
-    font-weight: 800;
-    margin-bottom: 0.75rem;
 }
 
 .product-description {
@@ -738,11 +755,6 @@ footer::before {
     100% { transform: translateX(-50%); }
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
@@ -780,9 +792,18 @@ footer::before {
         font-size: 1.2rem;
     }
     
-    .category-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    .carousel-content {
+        padding: 3rem 1.5rem;
+    }
+    .carousel-content h3 {
+        font-size: 1.8rem;
+    }
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+    .carousel-slides {
+        min-height: 350px;
     }
     
     .products-grid {
@@ -793,7 +814,6 @@ footer::before {
         margin-top: 60px;
     }
     
-    .categories h2,
     .featured-products h2 {
         font-size: 2rem;
     }

@@ -6,109 +6,6 @@
     <title>GAZCOM GENERAL MERCHANTS - Petroleum Equipment</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Additional homepage styles */
-        .hero {
-            background: linear-gradient(135deg, var(--jungle-green) 0%, var(--orange) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
-            background-size: 50px 50px;
-            animation: moveBackground 20s linear infinite;
-        }
-        
-        .feature-slider {
-            display: inline-block;
-            animation: slide 20s linear infinite;
-            white-space: nowrap;
-        }
-        
-        .feature-item {
-            display: inline-block;
-            padding: 0 2rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        
-        .category-card {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-        
-        .category-card i {
-            color: var(--orange);
-            transition: color 0.3s ease;
-        }
-        
-        .category-card:hover i {
-            color: var(--jungle-green);
-        }
-        
-        .product-card {
-            cursor: pointer;
-        }
-        
-        .cta-button {
-            background-color: var(--white);
-            color: var(--jungle-green);
-            transition: all 0.3s ease;
-        }
-        
-        .cta-button:hover {
-            background-color: var(--orange);
-            color: var(--white);
-            transform: scale(1.05);
-        }
-        
-        .inquire-btn {
-            width: 100%;
-            padding: 0.75rem;
-            background: linear-gradient(135deg, var(--orange), #ff8c42);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-        
-        .inquire-btn:hover {
-            background: linear-gradient(135deg, var(--jungle-green), var(--blue));
-            transform: translateY(-2px);
-        }
-        
-        /* Hide cart icon */
-        .cart-icon {
-            display: none !important;
-        }
-        
-        @keyframes moveBackground {
-            from { transform: translate(0, 0); }
-            to { transform: translate(50px, 50px); }
-        }
-        
-        @keyframes slide {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -137,23 +34,30 @@
             <p class="animated-text">For Your Petroleum Solutions</p>
             <div class="moving-features">
                 <div class="feature-slider">
-                    <div class="feature-item">🔥 Quality Petroleum Equipment</div>
-                    <div class="feature-item">🔧 Industrial Grade Products</div>
-                    <div class="feature-item">🛡️ Certified Safety Gear</div>
-                    <div class="feature-item">🚛 Fast Delivery Worldwide</div>
-                    <div class="feature-item">💯 100% Genuine Parts</div>
-                    <div class="feature-item">🏭 Authorized Distributor</div>
+                    <div class="feature-item">Quality Petroleum Equipment</div>
+                    <div class="feature-item">Industrial Grade Products</div>
+                    <div class="feature-item">Certified Safety Gear</div>
+                    <div class="feature-item">Fast Delivery Worldwide</div>
+                    <div class="feature-item">100% Genuine Parts</div>
+                    <div class="feature-item">Authorized Distributor</div>
                 </div>
             </div>
             <button class="cta-button" onclick="window.location.href='shop.html'">Shop Now</button>
         </div>
     </section>
 
-    <section class="categories">
-        <h2>Our Product Categories</h2>
-        <div class="category-grid" id="categories-grid">
-            <div class="loading">Loading categories...</div>
+    
+    <section class="category-carousel">
+        <div class="carousel-container">
+            <button class="carousel-btn prev" id="prevCategoryBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="carousel-slides" id="categoryCarousel"></div>
+            <button class="carousel-btn next" id="nextCategoryBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
+        <div class="carousel-dots" id="carouselDots"></div>
     </section>
 
     <section class="featured-products">
@@ -202,70 +106,5 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script>
-        // Load categories
-        async function loadCategories() {
-            const grid = document.getElementById('categories-grid');
-            if (!grid) return;
-            
-            try {
-                const response = await fetch('/api/categories');
-                const categories = await response.json();
-                grid.innerHTML = categories.map(cat => `
-                    <div class="category-card" onclick="window.location.href='shop.html?category=${cat.id}'">
-                        <i class="${cat.icon || 'fas fa-box'}"></i>
-                        <h3>${cat.name}</h3>
-                        <p>${cat.description || 'View products'}</p>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading categories:', error);
-                grid.innerHTML = '<div class="loading">Unable to load categories</div>';
-            }
-        }
-        
-        // Load featured products
-        async function loadFeaturedProducts() {
-            const grid = document.getElementById('featured-products');
-            if (!grid) return;
-            
-            try {
-                const response = await fetch('/api/products/featured');
-                const products = await response.json();
-                
-                if (products.length === 0) {
-                    grid.innerHTML = '<div class="loading">No featured products available</div>';
-                    return;
-                }
-                
-                grid.innerHTML = products.map(product => `
-                    <div class="product-card" onclick="viewProduct(${product.id})">
-                        <img src="${product.image_url || 'https://via.placeholder.com/300x250?text=Petroleum+Product'}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x250?text=Product'">
-                        <div class="product-info">
-                            <div class="product-title">${product.name}</div>
-                            <div class="product-category">${product.category_name || 'Petroleum Equipment'}</div>
-                            <div class="product-description">${product.description ? product.description.substring(0, 100) : 'Quality petroleum equipment'}...</div>
-                            <button class="inquire-btn" onclick="event.stopPropagation(); inquireProduct(${JSON.stringify(product).replace(/"/g, '&quot;')})">
-                                <i class="fas fa-envelope"></i> Inquire
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading featured products:', error);
-                grid.innerHTML = '<div class="loading">Unable to load products</div>';
-            }
-        }
-        
-        function viewProduct(productId) {
-            window.location.href = `product.html?id=${productId}`;
-        }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadCategories();
-            loadFeaturedProducts();
-        });
-    </script>
 </body>
 </html>
