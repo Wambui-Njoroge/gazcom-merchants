@@ -89,7 +89,7 @@ async function loadCategoryCarousel() {
 // After uploading your images, replace the version numbers (v123456) with your actual ones.
 function getCategoryBackgroundImage(category) {
     const imageMap = {
-        1: 'https://res.cloudinary.com/de65rjfno/image/upload/v1778753359/PETROLEUM_EQUIPMENT_wtlnan.jpg',
+        1: 'https://res.cloudinary.com/de65rjfno/image/upload/q_auto/f_auto/v1778753359/PETROLEUM_EQUIPMENT_wtlnan.jpg',
         2: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/electricals.jpg',
         3: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/petrol-station.jpg',
         4: 'https://res.cloudinary.com/de65rjfno/image/upload/v1234567890/gas.jpg',
